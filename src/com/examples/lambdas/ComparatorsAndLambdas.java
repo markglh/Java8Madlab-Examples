@@ -1,4 +1,4 @@
-package com.examples.part3;
+package com.examples.lambdas;
 
 import com.examples.domain.Person;
 
@@ -42,6 +42,10 @@ class Main {
          */
 
         //As I said, they've added a load of new default method to the comparator interface....
+        Collections.sort(loadsOfPeople2, Comparator.comparing(e -> e.getIq()));
+        System.out.println("Java8 single comparator 2: " + loadsOfPeople2);
+
+        //As I said, they've added a load of new default method to the comparator interface....
         Collections.sort(loadsOfPeople2, newComparator.thenComparing(Comparator.comparing(e -> e.getIq())));
         System.out.println("Java8 composite comparator: " + loadsOfPeople2);
 
@@ -53,9 +57,14 @@ class Main {
 
         //Yet more Java 8 niceties....
         List<Person> loadsOfPeople4 = getLoadsOfPeople();
-        loadsOfPeople4.sort((p1, p2) -> p1.getAge() - p2.getAge());
+        //loadsOfPeople4.sort((p1, p2) -> p1.getAge() - p2.getAge());
+        loadsOfPeople4.sort(Comparator.comparing(e -> e.getIq()));
         System.out.println("Java8 list niceties: " + loadsOfPeople4);
 
+        //Method references!
+        List<Person> loadsOfPeople5 = getLoadsOfPeople();
+        loadsOfPeople5.sort(Comparator.comparing(Person::getAge));
+        System.out.println("Java8 list niceties: " + loadsOfPeople5);
 
     }
 }

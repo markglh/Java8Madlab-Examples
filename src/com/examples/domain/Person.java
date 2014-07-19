@@ -27,11 +27,16 @@ public class Person {
         return iq;
     }
 
+    public Sex getGender() {
+        return gender;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "age=" + age +
                 ", iq=" + iq +
+                ", gender=" + gender +
                 '}';
     }
 

@@ -1,10 +1,10 @@
-package com.examples.part2;
+package com.examples.lambdas;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LambdasAndLists {
+public class ListsAndLambdas {
     public static void main(String[] args) {
         List<String> strings = new ArrayList<>();
         Collections.addAll(strings, "Java", "7", "FTW");

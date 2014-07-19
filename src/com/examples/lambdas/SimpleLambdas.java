@@ -1,66 +1,42 @@
-package com.examples.part1;
+package com.examples.lambdas;
 
 import com.examples.domain.Person;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.examples.lambdas.PersonPredicates.*;
+
 public class SimpleLambdas {
-
-    private static void printAllPeopleOlderThan50(List<Person> people) {
-        for (Person person : people) {
-            if (person.getAge() >= 50) {
-                System.out.println(person);
-            }
-        }
-    }
-
-    private static void printAllPeopleMatchingPredicate(List<Person> people, Predicate<Person> predicate) {
-        for (Person person : people) {
-            if (predicate.test(person)) {
-                System.out.println(person);
-            }
-        }
-    }
-
-    private static void printAndImproveAllPeopleMatchingPredicate(List<Person> people,
-                                                                  Predicate<Person> predicate,
-                                                                  Function<Person, Person> improver) {
-        for (Person person : people) {
-            if (predicate.test(person)) {
-                System.out.println(improver.apply(person));
-            }
-        }
-    }
-
-    private static Person improvePerson(Person person) {
-        return new Person(person.getAge() / 2, person.getIq() * 2);
-    }
-
-    private static boolean isPersonOlderThan50(Person person) {
-        return person.getAge() >= 50;
-    }
 
     public static void main(String[] args) {
         List<Person> loadsOfPeople = Person.getLoadsOfPeople();
 
+        //old inflexible way
         printAllPeopleOlderThan50(loadsOfPeople);
+
+        //pre java 8, using a standard predicate implementation
         printAllPeopleMatchingPredicate(loadsOfPeople, new PersonOlderThan50Predicate());
+
+        //Java 8, using a lambda to instantiate the predicate
         printAllPeopleMatchingPredicate(loadsOfPeople, x -> x.getAge() > 50);
+
+        //composite predicates
+        Predicate<Person> ageCheck = x -> x.getAge() > 50;
+        printAllPeopleMatchingPredicate(loadsOfPeople, ageCheck.and(x -> x.getIq() > 100));
+
         printAndImproveAllPeopleMatchingPredicate(loadsOfPeople,
                 x -> x.getAge() > 50,
                 x -> new Person(x.getAge() / 2, x.getIq() * 2));
 
         //method references, can be clearer - also easier to debug
         printAndImproveAllPeopleMatchingPredicate(loadsOfPeople,
-                SimpleLambdas::isPersonOlderThan50,
-                SimpleLambdas::improvePerson);
+                PersonPredicates::isPersonOlderThan50,
+                PersonPredicates::improvePerson);
 
 
         //we could take this even further, perhaps replacing the println with a Consumer...
-
 
         System.out.println("\n\nProve that Lambdas are nothing more than Interfaces with one method...");
         Consumer<String> inferredConsumer = x -> System.out.println(x);
@@ -85,15 +61,9 @@ public class SimpleLambdas {
                 System.out.println("Hello world one!");
             }
         };
-    }
-}
+        r1.run();
 
-class PersonOlderThan50Predicate implements Predicate<Person> {
-
-    @Override
-    public boolean test(Person person) {
-        //if
-        return person.getAge() >= 50;
+        Consumer<Object> c2 = System.out::println;
     }
 }
 
