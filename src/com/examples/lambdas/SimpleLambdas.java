@@ -28,7 +28,7 @@ public class SimpleLambdas {
 
         printAndImproveAllPeopleMatchingPredicate(loadsOfPeople,
                 x -> x.getAge() > 50,
-                x -> new Person(x.getAge() / 2, x.getIq() * 2));
+                x -> new Person("Mutated" + x.getName(), x.getAge() / 2, x.getIq() * 2, x.getGender()));
 
         //method references, can be clearer - also easier to debug
         printAndImproveAllPeopleMatchingPredicate(loadsOfPeople,

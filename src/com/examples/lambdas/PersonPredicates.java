@@ -46,7 +46,7 @@ public class PersonPredicates {
     }
 
     public static Person improvePerson(Person person) {
-        return new Person(person.getAge() / 2, person.getIq() * 2);
+        return new Person("Mutated" + person.getName(), person.getAge() / 2, person.getIq() * 2, person.getGender());
     }
 
     public static boolean isPersonOlderThan50(Person person) {
